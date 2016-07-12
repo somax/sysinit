@@ -8,6 +8,14 @@ if [ ! $REMOTEHOST ] || [ ! $VERSION ] ; then
 else
 	TARFILE=node-$VERSION-linux-x64.tar.xz
 	echo "copy '$TARFILE' to remote..."
-    scp download/$TARFILE $REMOTEHOST:~/ && echo "install..." && ssh -t $REMOTEHOST "sudo tar --strip-components 1 -xvf ~/$TARFILE -C /usr/local" && echo "DONE!"
+    scp "download/$TARFILE" "$REMOTEHOST:~/" &&
+	echo "copy node package to remote..." &&
+    scp "download/npm-packs.tgz" "$REMOTEHOST:~/" &&
+    echo "install..." && 
+    ssh -t $REMOTEHOST "
+    	sudo tar --strip-components 1 -xvf ~/$TARFILE -C /usr/local 
+	    sudo tar -xzf npm-packs.tgz -C /usr/local
+	" &&
+	echo "DONE!"
     
 fi
