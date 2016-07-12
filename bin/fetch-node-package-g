@@ -1,0 +1,17 @@
+#!/bin/sh
+
+SOURCE="${BASH_SOURCE[0]}"
+DIR="$( dirname "$SOURCE" )"
+NPM_GLOBAL_PATH="$DIR/../download/npm-global"
+# echo $NPM_GLOBAL_PATH
+
+mkdir -p "$NPM_GLOBAL_PATH" && 
+cd "$_" &&
+# pwd &&
+NPM_CONFIG_PREFIX="$NPM_GLOBAL_PATH" npm i -g $1 &&
+# cd "$NPM_GLOBAL_PATH" && 
+# pwd
+tar -czf ../npm-packs.tgz *
+# 拷贝 -> 离线存储
+# 离线存储 -> 目标机器
+# 目标服务器上解包安装 sudo tar -xzf npm-packs.tgz -C /usr/local

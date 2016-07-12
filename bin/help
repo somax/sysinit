@@ -1,0 +1,15 @@
+#!/bin/sh
+
+
+echo "=========================================="
+echo "SYSTEM INITIALIZATION TOOLS FROM JKR3 TEAM"
+echo "=========================================="
+echo ""
+echo "INITIALIZE SYSINIT:"
+echo "       ./sysinit init"
+echo ""
+echo "USAGE:"
+echo "       sysinit help"
+echo "       sysinit download-node <node-version>"
+echo "       sysinit fetch-node-package-g <node-package>"
+echo "       sysinit remote-install <user@remote-host> <node-version>"

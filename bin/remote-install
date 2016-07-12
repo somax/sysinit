@@ -1,0 +1,13 @@
+#!/bin/sh
+
+REMOTEHOST=$1
+VERSION=$2
+
+if [ ! $REMOTEHOST ] || [ ! $VERSION ] ; then
+    echo 'Please specific the remote host, for example: "sysinit remote-install user@192.168.123.100 v6.0.0".'
+else
+	TARFILE=node-$VERSION-linux-x64.tar.xz
+	echo "copy '$TARFILE' to remote..."
+    scp download/$TARFILE $REMOTEHOST:~/ && echo "install..." && ssh -t $REMOTEHOST "sudo tar --strip-components 1 -xvf ~/$TARFILE -C /usr/local" && echo "DONE!"
+    
+fi

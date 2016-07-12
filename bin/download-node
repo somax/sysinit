@@ -1,0 +1,10 @@
+#!/bin/sh
+
+VERSION=$1
+
+if [ ! $VERSION ] ; then
+    echo 'Please specific the version of nodejs, for example:: "v4.3.0"!'
+else
+    mkdir -p download && cd $_
+    curl -O https://nodejs.org/dist/$VERSION/node-$VERSION-linux-x64.tar.xz
+fi

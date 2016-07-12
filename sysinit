@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+# echo $DIR
+COMMAND=$1
+
+# show usage
+if [ ! $COMMAND ]; then
+    echo "SYSINIT v0.0.1"
+    echo "USAGE: 'sysinit <command> <params>'"
+    echo "       'sysinit help' for more infomation."
+
+# init
+elif [ "$COMMAND" = "init" ]; then
+    if [ -x "$DIR/sysinit" ]; then
+        echo 'Already Initialized.'
+    else
+        ln -s "$DIR/sysinit" "/usr/local/bin/sysinit"
+    fi
+# do command
+elif [ -x "$DIR/bin/$COMMAND" ]; then
+    "$DIR/bin/$COMMAND" $2 $3 $4 $5
+
+# show help
+else
+    echo "No such command '$COMMAND'."
+    echo "'sysinit help' for more infomation."
+fi
