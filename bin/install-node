@@ -1,6 +1,0 @@
-#!/bin/sh
-
-VERSION=$1
-
-cd download
-sudo tar --strip-components 1 -xzvf node-$VERSION-linux-x64.tar.gz -C /usr/local

@@ -19,6 +19,7 @@ function fetchGlobal {
 
 function fetchLocal {
 	echo "do fetch locally..."
+	# TODO
 }
 
 if [[ "$@"  =~ "-g" ]]; then
