@@ -1,0 +1,30 @@
+#!/bin/sh
+
+if [ ! $1 ]; then
+	echo "Fetch nothing ."
+	exit
+fi
+
+SOURCE="${BASH_SOURCE[0]}"
+DIR="$( dirname "$SOURCE" )"
+
+function fetchGlobal {
+	echo "do fetch globally..."
+	NPM_GLOBAL_PATH="$DIR/../download/npm-global" &&
+	mkdir -p "$NPM_GLOBAL_PATH" && 
+	cd "$_" &&
+	NPM_CONFIG_PREFIX="$NPM_GLOBAL_PATH" npm i $@ &&
+	tar -czf ../npm-packs.tgz *
+}
+
+function fetchLocal {
+	echo "do fetch locally..."
+}
+
+if [[ "$@"  =~ "-g" ]]; then
+	echo "Globally"
+	fetchGlobal $@
+else
+	echo "Locally"
+	fetchLocal $@
+fi

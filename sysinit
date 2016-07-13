@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+VERSION="v0.0.2"
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
   DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
@@ -13,7 +14,7 @@ COMMAND=$1
 
 # show usage
 if [ ! $COMMAND ]; then
-    echo "SYSINIT v0.0.1"
+    echo "SYSINIT $VERSION"
     echo "USAGE: 'sysinit <command> <params>'"
     echo "       'sysinit help' for more infomation."
 
@@ -26,8 +27,7 @@ elif [ "$COMMAND" = "init" ]; then
     fi
 # do command
 elif [ -x "$DIR/bin/$COMMAND" ]; then
-    "$DIR/bin/$COMMAND" $2 $3 $4 $5
-
+    "$DIR/bin/$COMMAND" ${@:2} # pass all arguments except first one
 # show help
 else
     echo "No such command '$COMMAND'."

@@ -18,6 +18,10 @@
     sysinit download-node <node-version>
     sysinit download-node v6.0.0
 
+    # 下载 npm 包
+    sysinit node-pack -g <package-names...> # 全局
+    sysinit node-pack <package-names...> # 本地
+
     # 安装到远程电脑
     sysinit remote-install <user@remote-host> <node-version>
     sysinit remote-install user@192.168.123.110 v6.0.0
