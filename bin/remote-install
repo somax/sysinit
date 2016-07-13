@@ -2,20 +2,21 @@
 
 REMOTEHOST=$1
 VERSION=$2
-
+NODE=node-$VERSION-linux-x64.tar.xz
+NPM_PACKAGE=npm-global-packs.tgr.xz
 if [ ! $REMOTEHOST ] || [ ! $VERSION ] ; then
     echo 'Please specific the remote host, for example: "sysinit remote-install user@192.168.123.100 v6.0.0".'
-else
-	TARFILE=node-$VERSION-linux-x64.tar.xz
-	echo "copy '$TARFILE' to remote..."
-    scp "download/$TARFILE" "$REMOTEHOST:~/" &&
-	echo "copy node package to remote..." &&
-    scp "download/npm-packs.tgz" "$REMOTEHOST:~/" &&
-    echo "install..." && 
-    ssh -t $REMOTEHOST "
-    	sudo tar --strip-components 1 -xvf ~/$TARFILE -C /usr/local 
-	    sudo tar -xzf npm-packs.tgz -C /usr/local
-	" &&
-	echo "DONE!"
-    
+    exit
 fi
+
+echo "copy '$NODE' to remote..."
+scp "download/$NODE" "$REMOTEHOST:~/" &&
+echo "copy node package to remote..." &&
+scp "download/$NPM_PACKAGE" "$REMOTEHOST:~/" &&
+echo "install..." &&
+ssh -t $REMOTEHOST "
+	sudo tar --strip-components 1 -xvf ~/$NODE -C /usr/local
+    sudo tar -xvf $NPM_PACKAGE -C /usr/local
+" &&
+echo "DONE!"
+    

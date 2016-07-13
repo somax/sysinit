@@ -8,24 +8,30 @@ fi
 SOURCE="${BASH_SOURCE[0]}"
 DIR="$( dirname "$SOURCE" )"
 
-function fetchGlobal {
-	echo "do fetch globally..."
-	NPM_GLOBAL_PATH="$DIR/../download/npm-global" &&
-	mkdir -p "$NPM_GLOBAL_PATH" && 
-	cd "$_" &&
-	NPM_CONFIG_PREFIX="$NPM_GLOBAL_PATH" npm i $@ &&
-	tar -czf ../npm-packs.tgz *
+function pack {
+	NPM_PATH="$DIR/../download/npm-$1" &&
+	mkdir -p "$NPM_PATH" &&
+	echo "Fetching..." &&
+	"fetch_$1" "$NPM_PATH" $@ &&
+	echo "Packing..."
+	cd "$NPM_PATH" &&
+	tar Jcvf ../npm-$1-packs.tgr.xz * &&
+	echo "DONE!"
 }
 
-function fetchLocal {
-	echo "do fetch locally..."
-	# TODO
+function fetch_global {
+	NPM_CONFIG_PREFIX="$1" npm i ${@:2}
+}
+
+function fetch_local {
+	cd $1 &&
+	npm i ${@:2}
 }
 
 if [[ "$@"  =~ "-g" ]]; then
 	echo "Globally"
-	fetchGlobal $@
+	pack global $@
 else
 	echo "Locally"
-	fetchLocal $@
+	pack local $@
 fi
