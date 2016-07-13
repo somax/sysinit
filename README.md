@@ -6,7 +6,8 @@
     git clone http://git.jkr3.com/somax/sysinit.git
 
 ## usage
-    # sysinit <command> <params>
+    # 基本使用
+    sysinit <command> <params>
 
     # 初始化成全局命令
     ./sysinit init
@@ -16,7 +17,6 @@
 
     # 下载 node 二进制版本
     sysinit download-node <node-version>
-    sysinit download-node v6.0.0
 
     # 下载 npm 包
     sysinit node-pack -g <package-names...> # 全局
@@ -24,8 +24,11 @@
 
     # 安装到远程电脑
     sysinit remote-install <user@remote-host> <node-version>
-    sysinit remote-install user@192.168.123.110 v6.0.0
 
+## example
+    sysinit download-node v6.0.0
+    sysinit node-pack -g pm2 http-server
+    sysinit remote-install user@192.168.123.110 v6.0.0    
 
 ## tips
 - 在执行远程安装之前，确保本机公钥已经`ssh-copy-id`到远程服务器上，可以避免输入密码的麻烦。
