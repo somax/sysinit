@@ -25,14 +25,19 @@
     sysinit node-pack -g <package-names...> # 全局
     sysinit node-pack <package-names...> # 本地
 
-    # 安装到远程电脑
-    sysinit remote-install <user@remote-host> <node-version>
+    # 安装到远程电脑, 如果不加 node-version 参数则只安装 npm-global 包
+    sysinit remote-install <user@remote-host> [node-version]
+
 
 ## example
     sysinit download-node v6.0.0
     sysinit node-pack -g pm2 http-server
     sysinit list-remote-node v6
+    sysinit download-node v6.6.0
+    sysinit download-node v6.6.0 linux-armv71
     sysinit remote-install user@192.168.123.110 v6.0.0    
 
 ## tips
 - 在执行远程安装之前，确保本机公钥已经`ssh-copy-id`到远程服务器上，可以避免输入密码的麻烦。
+
+
