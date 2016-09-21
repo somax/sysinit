@@ -1,0 +1,15 @@
+{
+  "name": "sysinit",
+  "version": "0.1.0",
+  "description": "服务器必要环境的自动安装与部署工具集",
+  "main": "sysinit",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.jkr3.com:somax/sysinit.git"
+  },
+  "author": "MaXiaojun <somaxj@163.com>",
+  "license": "MIT"
+}
