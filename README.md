@@ -15,6 +15,9 @@
     # 获取帮助
     sysinit help
 
+    # 查看远程可用 node 版本
+    sysinit list-remote-node <filter-version>
+
     # 下载 node 二进制版本
     sysinit download-node <node-version>
 
@@ -28,6 +31,7 @@
 ## example
     sysinit download-node v6.0.0
     sysinit node-pack -g pm2 http-server
+    sysinit list-remote-node v6
     sysinit remote-install user@192.168.123.110 v6.0.0    
 
 ## tips

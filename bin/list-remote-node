@@ -1,0 +1,11 @@
+#!/bin/sh
+
+VERSION=$1
+
+echo 'getting list...'
+ # curl --silent -L http://nodejs.org/dist | \
+ #  grep -o '<a href=['"'"'"][^"'"'"']*['"'"'"]' | \
+ #  sed -e 's/^<a href=["'"'"']//' -e 's/["'"'"']$//' | grep \/
+ 
+ curl --silent -L http://nodejs.org/dist/index.tab| awk '{print $1}'  | grep "$VERSION" 
+  
