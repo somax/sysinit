@@ -5,11 +5,13 @@ if [ ! $1 ]; then
 	exit
 fi
 
-SOURCE="${BASH_SOURCE[0]}"
-DIR="$( dirname "$SOURCE" )"
+# SOURCE="${BASH_SOURCE[0]}"
+# DIR="$( dirname "$SOURCE" )"
+DIR=${PWD}/download
 
 function pack {
-	NPM_PATH="$DIR/../download/npm-$1" &&
+	NPM_PATH="$DIR/npm-$1" &&
+	echo "Saving to '$NPM_PATH' ..." &&
 	mkdir -p "$NPM_PATH" &&
 	echo "Fetching..." &&
 	"fetch_$1" "$NPM_PATH" $@ &&
@@ -24,7 +26,7 @@ function fetch_global {
 }
 
 function fetch_local {
-	cd $1 &&
+	cd "$1" &&
 	npm i ${@:2}
 }
 
