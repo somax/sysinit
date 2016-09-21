@@ -13,12 +13,15 @@ fi
 
 installNode(){
 	echo "Install Node..."
-	if [ ! -f "download/$NODE" ] ; then
-		echo "'$NODE' not exist, use 'sysinit download-node <version>' command to get one." 
+
+	NODE_PATH="download/$NODE"
+
+	if [ ! -f "$NODE_PATH" ] ; then
+		echo "'$NODE_PATH' not exist, use 'sysinit download-node <version>' command to get one." 
 		exit
 	fi
 
-	echo "copy '$NODE' to remote..."
+	echo "'$NODE_PATH' --> $REMOTEHOST"
 	scp "download/$NODE" "$REMOTEHOST:~/" &&
 	echo "install..." &&
 	ssh -t $REMOTEHOST "
@@ -29,12 +32,15 @@ installNode(){
 
 installNpm(){
 	echo "Install Node Package..."
-	if [ ! -f "download/$NPM_PACKAGE" ] ; then
-		echo "'$NPM_PACKAGE' not exist, use 'sysinit node-pack [-g] <package-names ...>' command to get one." 
+
+	NPM_PACKAGE_PATH="download/$NPM_PACKAGE"
+
+	if [ ! -f "$NPM_PACKAGE_PATH" ] ; then
+		echo "'$NPM_PACKAGE_PATH' not exist, use 'sysinit node-pack [-g] <package-names ...>' command to get one." 
 		exit
 	fi
 
-	echo "copy node package to remote..." &&
+	echo "'$NPM_PACKAGE_PATH' --> $REMOTEHOST" 
 	scp "download/$NPM_PACKAGE" "$REMOTEHOST:~/" &&
 	echo "install..." &&
 	ssh -t $REMOTEHOST "
