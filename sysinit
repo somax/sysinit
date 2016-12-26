@@ -20,10 +20,10 @@ if [ ! $COMMAND ]; then
 
 # init
 elif [ "$COMMAND" = "init" ]; then
-    if [ -x "$DIR/sysinit" ]; then
+    if [ -x "/usr/local/bin/sysinit" ]; then
         echo 'Already Initialized.'
     else
-        ln -s "$DIR/sysinit" "/usr/local/bin/sysinit"
+        ln -s "$DIR/sysinit" "/usr/local/bin/sysinit" && echo "Now you can use 'sysinit' in any location."
     fi
 # do command
 elif [ -x "$DIR/bin/$COMMAND" ]; then
