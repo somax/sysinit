@@ -11,11 +11,6 @@ help() {
   echo "    -f Force overwrite config file."
 }
 
-if [ $# == 0 ]; then
-  help
-  exit 0
-fi
-
 # get options
 while getopts ":hrfv" optname  "$@"
   do
@@ -50,21 +45,17 @@ while getopts ":hrfv" optname  "$@"
     esac
   done
 
-
 SHIFT_COUNT=$(($OPTIND-1))
-
 shift $SHIFT_COUNT 
+
+if [ $# -lt 2 ]; then
+  help
+  exit 0
+fi
 
 DOMAIN=$1
 PROXY_TO=$2
-
-if [ "$DOMAIN" == "" ] || [ "$PROXY_TO" == "" ]; then
-  help
-  exit 1
-fi
-
 FILENAME=$DOMAIN.conf
-
 
 if [ "$IS_FORCE" != "true" ]; then
   if [ -s $FILENAME ]; then
