@@ -1,0 +1,109 @@
+#!/bin/bash
+# MaXiaojun<somaxj@163.com>
+
+help() {
+  echo "Generate vhost configuration file for Nginx"
+  echo "Usage:"
+  echo "  nginx-vhost <domain> <proxy-to>"
+  echo "  nginx-vhost -r www.jkr3.com https://192.168.123.123:8080"
+  echo "    -h Help"
+  echo "    -r Generate redirect config file."
+  echo "    -f Force overwrite config file."
+}
+
+if [ $# == 0 ]; then
+  help
+  exit 0
+fi
+
+# get options
+while getopts ":hrfv" optname  "$@"
+  do
+    case "$optname" in
+      "v")
+          echo v0.1.0
+          exit 0
+        ;;
+      "h")
+          help
+          exit 0
+        ;;
+      "r")
+        IS_REDIRECT=true
+        ;;
+      "f")
+        IS_FORCE=true
+        ;;
+      "?")
+        echo "Unknown option -$OPTARG"
+        exit 1
+        ;;
+      ":")
+        echo "No argument value for option -$OPTARG"
+        exit 1
+        ;;
+      *)
+      # Should not occur
+        echo "Unknown error while processing options"
+        exit 1
+        ;;
+    esac
+  done
+
+
+SHIFT_COUNT=$(($OPTIND-1))
+
+shift $SHIFT_COUNT 
+
+DOMAIN=$1
+PROXY_TO=$2
+
+if [ "$DOMAIN" == "" ] || [ "$PROXY_TO" == "" ]; then
+  help
+  exit 1
+fi
+
+FILENAME=$DOMAIN.conf
+
+
+if [ "$IS_FORCE" != "true" ]; then
+  if [ -s $FILENAME ]; then
+    echo "Error: Config '$FILENAME' exist." && exit 1
+  fi
+fi
+
+TMP_REDIRECT="## REDIRECT ##
+server {
+  listen 80;
+  server_name $DOMAIN;
+  return 301  $PROXY_TO\$request_uri;
+}
+"
+
+TMP_PROXY="## PROXY ##
+server {
+  listen 80;
+  server_name $DOMAIN;
+  location / {
+    proxy_pass $PROXY_TO;
+    proxy_set_header Host \$host:80;
+    proxy_set_header X-Real-IP \$remote_addr;
+    proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+    proxy_set_header Via \"nginx\";
+
+    add_header X-Upstream-Addr \$upstream_addr;
+  }
+}
+"
+
+if [ "$IS_REDIRECT" == "true" ]; then
+  echo "$TMP_REDIRECT" > $FILENAME;
+else
+  echo "$TMP_PROXY" > $FILENAME;
+fi
+
+echo "=========================================================="
+echo "Config file '$FILENAME'' generate successfully."
+echo "----------------------------------------------------------"
+cat "$FILENAME"
+echo "----------------------------------------------------------"

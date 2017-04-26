@@ -1,9 +1,18 @@
 # SYSINIT
 
-服务器必要环境的自动安装与部署工具，目前仅支持 Linux
+系统运行环境的安装与部署工具集
+
+> 目前仅支持 Linux
 
 ## install
+
+公司内网
+
     git clone http://git.jkr3.com/somax/sysinit.git
+
+Github
+
+    git clone https://github.com/somax/sysinit.git
 
 ## usage
     # 基本使用
@@ -28,6 +37,8 @@
     # 安装到远程电脑, 如果不加 node-version 参数则只安装 npm-global 包
     sysinit remote-install <user@remote-host> [node-version]
 
+    # 生成 nginx vhost 配置文件
+    sysinit nginx-config <domain> <proxy-to>
 
 ## example
     sysinit download-node v6.0.0
