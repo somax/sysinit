@@ -8,7 +8,7 @@
 
 公司内网
 
-    git clone http://git.jkr3.com/somax/sysinit.git
+    git clone http://git.jkr3.com/ops/sysinit.git
 
 Github
 
